@@ -4,16 +4,17 @@ using UnityEditor;
 using UnityEngine;
 using UnityEditor.Experimental.GraphView;
 using System.Linq;
+using System;
 
 namespace LS.Attributes 
 {
     public class AssetSearchProvider : ScriptableObject, ISearchWindowProvider
     {
-        System.Type assetType;
+        Type assetType;
         public SerializedProperty serializedProperty;
 
         public AssetSearchProvider Init(
-            System.Type assetType, 
+            Type assetType, 
             SerializedProperty serializedProperty
         ) {
             this.assetType = assetType;
@@ -27,44 +28,61 @@ namespace LS.Attributes
             return true;
         }
 
-        public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context) {
+        public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
+        {
             List<SearchTreeEntry> list = new List<SearchTreeEntry>();
 
-            //string[] assetGuids = AssetDatabase.FindAssets($"t:{assetType.Name}");
-            string[] assetGuids = AssetDatabase.FindAssets($"t:object", new string[] {"Assets"});
-            List<string> paths = new List<string>();
-            foreach(string guid in assetGuids)
-                paths.Add(AssetDatabase.GUIDToAssetPath(guid));
+            List<string> paths = GetPathsOfAssetsWithType(assetType);
 
-            paths = paths.Where(x => PathIsCorrectType(x, assetType)).OrderBy(x => x).ToList();
+            PopulateSearchTree(list, paths);
 
-            
+            return list;
+        }
+
+        private static void PopulateSearchTree(List<SearchTreeEntry> list, List<string> paths)
+        {
+            //First element in List is the title of the search window
             list.Add(new SearchTreeGroupEntry(new GUIContent("Select Variable")));
+
             List<string> groups = new List<string>();
-            foreach(string item in paths) {
+            foreach (string item in paths)
+            {
                 string[] entryTitle = item.Split('/');
                 string groupName = "";
-                for (int i = 0; i < entryTitle.Length - 1; i++) {
+                for (int i = 0; i < entryTitle.Length - 1; i++)
+                {
                     groupName += entryTitle[i];
                     if (!groups.Contains(groupName))
                     {
-                        list.Add(new SearchTreeGroupEntry(new GUIContent(entryTitle[i]), i+1));
+                        list.Add(new SearchTreeGroupEntry(new GUIContent(entryTitle[i]), i + 1));
                         groups.Add(groupName);
                     }
                     groupName += "/";
                 }
-            
+
                 UnityEngine.Object obj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(item);
                 SearchTreeEntry entry = new SearchTreeEntry(new GUIContent(entryTitle.Last(), EditorGUIUtility.ObjectContent(obj, obj.GetType()).image));
                 entry.level = entryTitle.Length;
                 entry.userData = obj;
                 list.Add(entry);
             }
-
-            return list;
         }
 
-        bool PathIsCorrectType(string path, System.Type type) {
+        private static string[] GetAllAssets() => AssetDatabase.FindAssets($"t:object", new string[] { "Assets" });
+
+        private static List<string> GetPathsOfAssetsWithType(Type assetType) {
+            string[] assetGuids = GetAllAssets();
+            
+            List<string> paths = new List<string>();
+            foreach (string guid in assetGuids)
+                paths.Add(AssetDatabase.GUIDToAssetPath(guid));
+
+            paths = paths.Where(x => PathIsCorrectType(x, assetType)).OrderBy(x => x).ToList();
+            return paths;
+        }
+        
+
+        private static bool PathIsCorrectType(string path, Type type) {
             return AssetDatabase.LoadAssetAtPath(path,type) != null;
         }
     }
