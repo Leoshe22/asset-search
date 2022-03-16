@@ -42,7 +42,7 @@ namespace LS.Attributes
         private static void PopulateSearchTree(List<SearchTreeEntry> list, List<string> paths)
         {
             //First element in List is the title of the search window
-            list.Add(new SearchTreeGroupEntry(new GUIContent("Select Variable")));
+            list.Add(new SearchTreeGroupEntry(new GUIContent("Select Asset")));
 
             List<string> groups = new List<string>();
             foreach (string item in paths)
