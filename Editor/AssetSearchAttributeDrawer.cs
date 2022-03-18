@@ -46,8 +46,12 @@ namespace LS.Attributes.Editor
                 var parent = GetParent(property);
                 var typeProperty = GetValue(parent, attribute.typePropertyName);
                 if (typeProperty != null)
-                    return (Type)typeProperty;
-                Debug.LogError($"Couldn't find property \"{attribute.typePropertyName}\"");
+                    if (typeProperty is Type)
+                        return (Type)typeProperty;
+                    else
+                        Debug.LogError($"\"{attribute.typePropertyName}\" is not a Type property.");
+                else    
+                    Debug.LogError($"Couldn't find property \"{attribute.typePropertyName}\"");
             }
             return fieldType;
         }
