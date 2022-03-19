@@ -90,7 +90,7 @@ public class Example : MonoBehavior
     
     void Start()
     {
-      (variable as ITest).Do();
+      variable.Value.Do();
     }
   }
 ```
