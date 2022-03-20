@@ -61,6 +61,17 @@ public class Example : MonoBehavior
     }
   }
 ```
+Note: this WON'T work because interfaces aren't serialized
+```cs
+  public class Example : MonoBehavior
+  {
+    [SerializeField]
+    [AssetSearch]
+    ITest ITestObject;
+    
+    //do stuff with ITestObject
+  }
+```
 ### Property
 ``` cs
   public class GenericReference<T>
