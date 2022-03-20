@@ -38,7 +38,7 @@ public class Example : MonoBehavior
 ``` cs
   public interface ITest 
   {
-    public void Do();
+    void Do();
   }
   
   public class TestBase : ScriptableObject, ITest
@@ -80,7 +80,7 @@ public class Example : MonoBehavior
   
   public interface ITest 
   {
-    public void Do();
+    void Do();
   }
   
   public class Example : MonoBehavior
