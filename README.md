@@ -77,7 +77,7 @@ Note: this WON'T work because interfaces aren't serialized
   public class GenericReference<T>
   {
     [SerializeField]
-    [AssetSearch(nameof(ReferenceType))] //will get type from the property ReferenceType 
+    [AssetSearch(typePropertyName: nameof(ReferenceType))] //will get type from the property ReferenceType 
     Object _value;
     
     Type ReferenceType => typeof(T);
