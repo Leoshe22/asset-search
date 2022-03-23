@@ -14,17 +14,18 @@ namespace LS.Attributes.Editor
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) 
         {
-            position.width -= 60;
+            var attrib = this.attribute as AssetSearch;
+
+            position.width -= attrib.buttonWidth;
             var fieldType = this.fieldInfo.FieldType;
 
             EditorGUI.ObjectField(position, label, property.objectReferenceValue, fieldType, true);
 
             position.x += position.width;
-            position.width = 60;
+            position.width = attrib.buttonWidth;
 
-            if (GUI.Button(position, new GUIContent("Search")))
+            if (GUI.Button(position, new GUIContent(attrib.label)))
             {
-                var attrib = this.attribute as AssetSearch;
                 Type t = GetType(
                     attrib, 
                     fieldType, 
