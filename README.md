@@ -16,7 +16,7 @@ using LS.Attributes;
 public class Example : MonoBehavior
 {
   [SerializeField]
-  [AssetField] //Creates a search window button that filters for Sprites in Assets
+  [AssetSearch] //Creates a search window button that filters for Sprites in Assets
   Sprite sprite;
 }
 ```
