@@ -12,13 +12,16 @@ namespace LS.Attributes
     {
         Type assetType;
         public SerializedProperty serializedProperty;
+        bool shortenPaths;
 
         public AssetSearchProvider Init(
             Type assetType, 
-            SerializedProperty serializedProperty
+            SerializedProperty serializedProperty,
+            bool shortenPaths
         ) {
             this.assetType = assetType;
             this.serializedProperty = serializedProperty;
+            this.shortenPaths = shortenPaths;
             return this;
         }
 
@@ -34,7 +37,7 @@ namespace LS.Attributes
 
             List<string> paths = GetPathsOfAssetsWithType(assetType);
 
-            var basePath = FindOverlappingPath(paths) + "/";
+            var basePath = shortenPaths ? (FindOverlappingPath(paths) + "/") : "";
 
             PopulateSearchTree(list, paths, basePath);
 
@@ -169,6 +172,7 @@ namespace LS.Attributes
 
         private static string Remove(string original, string key)
         {
+            if (key == "") return original;
             var index = original.IndexOf(key);
             while (index != -1)
             {

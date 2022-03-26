@@ -33,7 +33,7 @@ namespace LS.Attributes.Editor
                 );
                 SearchWindow.Open(
                     new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition)),
-                    ScriptableObject.CreateInstance<AssetSearchProvider>().Init(t, property)
+                    ScriptableObject.CreateInstance<AssetSearchProvider>().Init(t, property, attrib.shortenPaths)
                 );
             }
         }
