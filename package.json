@@ -1,6 +1,6 @@
 {
   "name": "ls.asset-search",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "displayName": "Asset Search Attribute",
   "description": "An attribute for adding a search button for assets in your code.",
   "unity": "2019.1",
