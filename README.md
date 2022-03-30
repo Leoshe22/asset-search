@@ -1,6 +1,8 @@
 # asset-search
 Asset Search Attribute for Unity
 
+# Note: this project will no longer be updated as this code has migrated to [Search-Windows](https://github.com/Leoshe22/Search-Windows). To use the new version, uninstall this version and install Search Windows, then change `LS.Attributes` to `LS.SearchWindows` in your using statements.
+
 Use this attribute on your serialized object fields to add a button that opens a search window for your assets based on the type. The search window will keep elements sorted by the folder structure.
 <br>
 This can be used with Generics (which usually can't use the quick search on the normal object field!) and interfaces (though there are some drawbacks to this).
